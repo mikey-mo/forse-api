@@ -1,0 +1,20 @@
+{
+  "name": "forse-api",
+  "version": "1.0.0",
+  "description": "forse api service",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=development nodemon index",
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "firebase-admin": "^8.7.0",
+    "the-framework": "^1.0.11"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
