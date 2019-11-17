@@ -1,5 +1,5 @@
 const theFramework = require('the-framework');
-const fetchUserFromDatabse = require('../services/firebase/fetch-user-information');
+const fetchUserFromDatabse = require('../../services/firebase/fetch-user-information');
 
 theFramework.get(
   '/users/profile',
