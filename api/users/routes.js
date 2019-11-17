@@ -2,7 +2,7 @@ const theFramework = require('the-framework');
 const { fetchUserFromDatabase } = require('../../services/firebase/fetch-user-information');
 
 theFramework.get(
-  '/users/profile',
+  '/users/:user_id',
   [
     {
       id: 'user_id',
