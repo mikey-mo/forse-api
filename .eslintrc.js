@@ -17,5 +17,7 @@ module.exports = {
       "ecmaVersion": 2018,
       "sourceType": "module"
   },
-  "rules": {}
+  "rules": {
+    "import/no-dynamic-require": 0,
+  }
 };

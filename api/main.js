@@ -1,21 +1,20 @@
 const theFramework = require('the-framework');
+const fetchUserFromDatabse = require('../services/firebase/fetch-user-information');
 
 theFramework.get(
-  '/hello',
+  '/users/profile',
   [
     {
-      id: 'name',
-      type: theFramework.STRING,
+      id: 'user_id',
+      type: theFramework.INTEGER,
       required: true,
-      description: 'Your name',
+      description: 'user db id',
     },
   ],
   {
-    description: 'Says hello',
+    description: 'gets user profile information',
     authRequired: false,
   },
-  // Params is an object of processed parameters
-  // user is the logged in user, if there is one
-  // Takes 'user' as second argument
-  async (params) => ({ message: `Hello ${params.name}` }),
+  // Takes 'params' as first and 'user' as second argument
+  async (params) => ({ userInfo: await fetchUserFromDatabse(params.user_id) }),
 );

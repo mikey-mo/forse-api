@@ -1,10 +1,12 @@
 const theFramework = require('the-framework');
 const dotenv = require('dotenv');
-const initializeFirebaseApp = require('./services/firebase/index');
-
-const { PORT } = process.env;
 
 dotenv.config();
+
+const initializeFirebaseApp = require('./services/firebase/index');
+
+
+const { PORT } = process.env;
 
 initializeFirebaseApp();
 

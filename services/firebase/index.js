@@ -1,8 +1,11 @@
 const admin = require('firebase-admin');
 
+const { GOOGLE_APPLICATION_CREDENTIALS } = process.env;
+
+const googleCredentials = require(GOOGLE_APPLICATION_CREDENTIALS);
+
 const initializeFirebaseApp = () => admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
-  databaseURL: 'https://forse-app.firebaseio.com',
+  credential: admin.credential.cert(googleCredentials),
 });
 
 module.exports = initializeFirebaseApp;
