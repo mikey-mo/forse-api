@@ -1,5 +1,5 @@
 const theFramework = require('the-framework');
-const fetchUserFromDatabse = require('../../services/firebase/fetch-user-information');
+const { fetchUserFromDatabase } = require('../../services/firebase/fetch-user-information');
 
 theFramework.get(
   '/users/profile',
@@ -16,5 +16,5 @@ theFramework.get(
     authRequired: false,
   },
   // Takes 'params' as first and 'user' as second argument
-  async (params) => ({ userInfo: await fetchUserFromDatabse(params.user_id) }),
+  async (params) => ({ userInfo: await fetchUserFromDatabase(params.user_id) }),
 );
