@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=development nodemon index",
-    "test": "test"
+    "test": "test",
+    "lint": "node_modules/.bin/eslint ./"
   },
   "author": "",
   "license": "ISC",
@@ -18,8 +19,11 @@
     "babel-eslint": "^10.0.2",
     "eslint": "^6.2.1",
     "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-standard": "^4.0.1",
     "nodemon": "^1.19.1"
   }

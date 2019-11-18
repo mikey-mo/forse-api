@@ -16,5 +16,5 @@ theFramework.get(
     authRequired: false,
   },
   // Takes 'params' as first and 'user' as second argument
-  async (params) => ({ userInfo: await fetchUserFromDatabase(params.user_id) }),
+  async ({ user_id: userId }) => ({ userInfo: await fetchUserFromDatabase(userId) }),
 );
