@@ -1,5 +1,6 @@
 const theFramework = require('the-framework');
 const { fetchUserFromDatabase } = require('../../services/firebase/fetch-user-information');
+const { createNewUserInDatabase } = require('../../services/firebase/create-new-user');
 
 theFramework.get(
   '/users/:user_id',
@@ -15,6 +16,22 @@ theFramework.get(
     description: 'gets user profile information',
     authRequired: false,
   },
-  // Takes 'params' as first and 'user' as second argument
   async ({ user_id: userId }) => fetchUserFromDatabase(userId),
+);
+
+theFramework.post(
+  '/create-user',
+  [
+    {
+      id: 'user_info',
+      type: theFramework.OBJECT,
+      required: true,
+      description: 'user information from strava',
+    },
+  ],
+  {
+    description: 'create user profile information from strava',
+    authRequired: false,
+  },
+  async (params) => createNewUserInDatabase(params),
 );

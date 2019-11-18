@@ -16,7 +16,6 @@ theFramework.get(
     description: 'gets current game information',
     authRequired: false,
   },
-  // Takes 'params' as first and 'user' as second argument
   async ({ game_id: gameId }) => ({ userInfo: await fetchCurrentGameFromDatabase(gameId) }),
 );
 
@@ -46,6 +45,5 @@ theFramework.post(
     description: 'initiates a game session',
     authRequired: false,
   },
-  // Takes 'params' as first and 'user' as second argument
   async (params) => creatNewGameInDatabase(params),
 );
