@@ -17,7 +17,7 @@ theFramework.get(
     description: 'gets current game information',
     authRequired: false,
   },
-  async ({ game_id: gameId }) => ({ userInfo: await fetchCurrentGameFromDatabase(gameId) }),
+  async ({ game_id: gameId }) => fetchCurrentGameFromDatabase(gameId),
 );
 
 theFramework.post(
