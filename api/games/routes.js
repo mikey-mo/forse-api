@@ -1,6 +1,7 @@
 const theFramework = require('the-framework');
 const { fetchCurrentGameFromDatabase } = require('../../services/firebase/fetch-current-game-information');
 const { creatNewGameInDatabase } = require('../../services/firebase/create-new-game');
+const { startNewGameInDatabase } = require('../../services/firebase/start-new-game');
 
 theFramework.get(
   '/current-games/:game_id',
@@ -17,6 +18,23 @@ theFramework.get(
     authRequired: false,
   },
   async ({ game_id: gameId }) => ({ userInfo: await fetchCurrentGameFromDatabase(gameId) }),
+);
+
+theFramework.post(
+  '/start-game/:game_id',
+  [
+    {
+      id: 'game_id',
+      type: theFramework.STRING,
+      required: true,
+      description: 'start game by id',
+    },
+  ],
+  {
+    description: 'starts current game between two users',
+    authRequired: false,
+  },
+  async ({ game_id: gameId }) => ({ userInfo: await startNewGameInDatabase(gameId) }),
 );
 
 theFramework.post(
