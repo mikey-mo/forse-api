@@ -1,7 +1,7 @@
 const theFramework = require('the-framework');
-const { fetchCurrentGameFromDatabase } = require('../../services/firebase/fetch-current-game-information');
-const { creatNewGameInDatabase } = require('../../services/firebase/create-new-game');
-const { startNewGameInDatabase } = require('../../services/firebase/start-new-game');
+const { fetchCurrentGameFromDatabase } = require('../../services/firebase/current-games/fetch-current-game-information');
+const { creatNewGameInDatabase } = require('../../services/firebase/current-games/create-new-game');
+const { startNewGameInDatabase } = require('../../services/firebase/current-games/start-new-game');
 
 theFramework.get(
   '/current-games/:game_id',

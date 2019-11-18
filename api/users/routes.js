@@ -1,6 +1,6 @@
 const theFramework = require('the-framework');
-const { fetchUserFromDatabase } = require('../../services/firebase/fetch-user-information');
-const { createNewUserInDatabase } = require('../../services/firebase/create-new-user');
+const { fetchUserFromDatabase } = require('../../services/firebase/users/fetch-user-information');
+const { createNewUserInDatabase } = require('../../services/firebase/users/create-new-user');
 
 theFramework.get(
   '/users/:user_id',
