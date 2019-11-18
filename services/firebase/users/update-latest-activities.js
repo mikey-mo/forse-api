@@ -7,7 +7,7 @@ const updateUserActivitiesInDatabase = async ({
   latest_activities: latestActivities,
 }) => {
   const data = {
-    latestActivities,
+    latest_activities: latestActivities,
   };
   try {
     const userRef = db.collection('users').doc(userId.toString());
