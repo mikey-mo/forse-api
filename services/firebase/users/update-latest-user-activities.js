@@ -20,9 +20,9 @@ const updateLatestUserActivitiesInDatabase = async ({
 }) => {
   try {
     const { body } = await fetchLatestUserActivities(accessToken);
-    const filteredActivities = body.filter((activity) => {
-      return (dateRangeFilter(activity.start_date) === true) && activity;
-    }).slice(0, 10);
+    const filteredActivities = body.filter(
+      (activity) => (dateRangeFilter(activity.start_date) === true) && activity,
+    ).slice(0, 10);
     const data = {
       latest_activities: filteredActivities,
     };
