@@ -1,7 +1,7 @@
 const theFramework = require('the-framework');
 const { fetchUserFromDatabase } = require('../../services/firebase/users/fetch-user-information');
 const { createNewUserInDatabase } = require('../../services/firebase/users/create-new-user');
-const { updateUserActivitiesInDatabase } = require('../../services/firebase/users/update-latest-activities');
+const { updateLatestUserActivitiesInDatabase } = require('../../services/firebase/users/update-latest-user-activities');
 
 theFramework.get(
   '/users/:user_id',
@@ -31,21 +31,21 @@ theFramework.post(
       description: 'user information from strava',
     },
     {
-      id: 'latest_activities',
-      type: theFramework.OBJECT,
+      id: 'access_token',
+      type: theFramework.STRING,
       required: true,
-      descripition: 'latest user activities',
+      descripition: 'access token for strava',
     },
   ],
   {
     description: 'latest activity based on user information from strava',
     authRequired: false,
   },
-  async (params) => updateUserActivitiesInDatabase(params),
+  async (params) => updateLatestUserActivitiesInDatabase(params),
 );
 
 theFramework.post(
-  '/create-user',
+  '/users/create',
   [
     {
       id: 'user_info',
