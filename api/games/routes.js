@@ -1,5 +1,6 @@
 const theFramework = require('the-framework');
 const { fetchCurrentGameFromDatabase } = require('../../services/firebase/current-games/fetch-game-information');
+const { addShotToCurrentGameDatabase } = require('../../services/firebase/current-games/add-shot-to-game');
 const { creatNewGameInDatabase } = require('../../services/firebase/current-games/create-new-game');
 const { startNewGameInDatabase } = require('../../services/firebase/current-games/start-new-game');
 
@@ -18,6 +19,35 @@ theFramework.get(
     authRequired: false,
   },
   async ({ game_id: gameId }) => fetchCurrentGameFromDatabase(gameId),
+);
+
+theFramework.post(
+  '/current-games/:game_id/add-shot',
+  [
+    {
+      id: 'game_id',
+      type: theFramework.STRING,
+      required: true,
+      description: 'game id to add shot to',
+    },
+    {
+      id: 'activity_info',
+      type: theFramework.OBJECT,
+      required: true,
+      description: 'activity info to add for shot',
+    },
+    {
+      id: 'user_id',
+      type: theFramework.INTEGER,
+      required: true,
+      description: 'user id to add shot with',
+    },
+  ],
+  {
+    description: 'adds shot to current game',
+    authRequired: false,
+  },
+  async (params) => addShotToCurrentGameDatabase(params),
 );
 
 theFramework.post(
