@@ -1,7 +1,7 @@
 const admin = require('firebase-admin');
 const moment = require('moment');
 
-const fetchLatestUserActivities = require('../../strava/fetch-latest-activities');
+const fetchLatestUserActivities = require('../../strava/activities/fetch-latest-activities');
 
 const db = admin.firestore();
 
