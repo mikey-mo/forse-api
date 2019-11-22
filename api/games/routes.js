@@ -48,6 +48,18 @@ theFramework.post(
       required: true,
       description: 'user id to add shot with',
     },
+    {
+      id: 'shot_rules',
+      type: theFramework.OBJECT || null,
+      required: false,
+      description: 'rules for shot',
+    },
+    {
+      id: 'shot_type',
+      type: theFramework.STRING || null,
+      required: false,
+      description: 'type for shot',
+    },
   ],
   {
     description: 'adds shot to current game',
@@ -93,6 +105,12 @@ theFramework.post(
       type: theFramework.OBJECT,
       required: true,
       description: 'inital shot to start game',
+    },
+    {
+      id: 'shot_rules',
+      type: theFramework.OBJECT,
+      required: true,
+      description: 'rules for initial shot',
     },
   ],
   {

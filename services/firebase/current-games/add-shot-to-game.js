@@ -18,6 +18,7 @@ const addShotToCurrentGameDatabase = async ({
     map,
   },
   shot_type: shotType,
+  shot_rules: shotRules,
 }) => {
   try {
     const gameRef = await db.collection('current_games').doc(gameId);
@@ -37,11 +38,12 @@ const addShotToCurrentGameDatabase = async ({
           activity_type: activityType,
           player_id: userId,
           start_date: startDate,
-          elevation_gain: elevationGain,
+          total_elevation_gain: elevationGain,
           shot_added: Timestamp.fromDate(new Date()),
           map,
           match_shot: matchId,
           type: shotType,
+          rules: shotRules || null,
         },
       },
     };

@@ -18,6 +18,7 @@ const createNewGameInDatabase = async ({
     moving_time: movingTime,
     id,
   },
+  shot_rules: shotRules,
 }) => {
   const data = {
     players: {
@@ -40,6 +41,7 @@ const createNewGameInDatabase = async ({
         moving_time: movingTime,
         strava_id: id,
         type: 'MATCH',
+        rules: shotRules,
       },
     },
     game_initiated: Timestamp.fromDate(new Date()),
