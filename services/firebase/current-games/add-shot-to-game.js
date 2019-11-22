@@ -8,6 +8,7 @@ const db = admin.firestore();
 const addShotToCurrentGameDatabase = async ({
   game_id: gameId,
   user_id: userId,
+  match_id: matchId,
   activity_info: {
     name,
     distance,
@@ -15,6 +16,7 @@ const addShotToCurrentGameDatabase = async ({
     type,
     start_date: startDate,
     total_elevation_gain: elevationGain,
+    map,
   },
 }) => {
   try {
@@ -30,6 +32,8 @@ const addShotToCurrentGameDatabase = async ({
       start_date: startDate,
       elevationGain,
       shot_added: Timestamp.fromDate(new Date()),
+      map,
+      match_id: matchId,
     }];
     const data = { shots: updatedShots };
     try {

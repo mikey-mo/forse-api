@@ -31,6 +31,12 @@ theFramework.post(
       description: 'game id to add shot to',
     },
     {
+      id: 'match_id',
+      type: theFramework.STRING,
+      required: true,
+      description: 'id to match shot to',
+    },
+    {
       id: 'activity_info',
       type: theFramework.OBJECT,
       required: true,
@@ -51,7 +57,7 @@ theFramework.post(
 );
 
 theFramework.post(
-  '/start-game/:game_id',
+  '/current-games/:game_id/start-game',
   [
     {
       id: 'game_id',
@@ -68,7 +74,7 @@ theFramework.post(
 );
 
 theFramework.post(
-  '/create-game',
+  '/create-games/create',
   [
     {
       id: 'players',
