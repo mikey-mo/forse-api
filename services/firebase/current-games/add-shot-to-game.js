@@ -37,7 +37,7 @@ const addShotToCurrentGameDatabase = async ({
           moving_time: movingTime,
           activity_type: activityType,
           player_id: userId,
-          start_date: startDate,
+          start_date: Timestamp.fromDate(startDate),
           total_elevation_gain: elevationGain,
           shot_added: Timestamp.fromDate(new Date()),
           map,
