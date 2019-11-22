@@ -12,11 +12,12 @@ const addShotToCurrentGameDatabase = async ({
   activity_info: {
     distance,
     moving_time: movingTime,
-    type,
+    type: activityType,
     start_date: startDate,
     total_elevation_gain: elevationGain,
     map,
   },
+  shot_type: shotType,
 }) => {
   try {
     const gameRef = await db.collection('current_games').doc(gameId);
@@ -32,14 +33,15 @@ const addShotToCurrentGameDatabase = async ({
         },
         [matchedShotId]: {
           distance,
-          movingTime,
-          type,
+          moving_time: movingTime,
+          activity_type: activityType,
           player_id: userId,
           start_date: startDate,
-          elevationGain,
+          elevation_gain: elevationGain,
           shot_added: Timestamp.fromDate(new Date()),
           map,
           match_shot: matchId,
+          type: shotType,
         },
       },
     };
