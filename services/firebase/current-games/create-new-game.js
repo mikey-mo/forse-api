@@ -1,24 +1,49 @@
 const admin = require('firebase-admin');
 const { Timestamp } = require('firebase-admin').firestore;
+const uuidv1 = require('uuid/v1');
 
 const db = admin.firestore();
 
-const creatNewGameInDatabase = async ({ players, goal, initial_shot: initialShot }) => {
+const createNewGameInDatabase = async ({
+  players: {
+    contender,
+    challenger,
+  },
+  goal,
+  initial_shot: {
+    map,
+    distance,
+    total_elevation_gain: totalElevationGain,
+    type,
+    moving_time: movingTime,
+    id,
+  },
+}) => {
   const data = {
     players: {
       contender: {
-        id: players.contender,
+        id: contender,
         letters: '',
       },
       challenger: {
-        id: players.challenger,
+        id: challenger,
         letters: '',
       },
     },
     goal,
-    shots: [initialShot],
+    shots: {
+      [uuidv1().replace(/-/g, '')]: {
+        map,
+        distance,
+        total_elevation_gain: totalElevationGain,
+        type,
+        moving_time: movingTime,
+        strava_id: id,
+      },
+    },
     game_initiated: Timestamp.fromDate(new Date()),
     status: 'INITIATED',
+    player_id: challenger,
   };
   try {
     db.collection('current_games').doc().set(data);
@@ -29,5 +54,5 @@ const creatNewGameInDatabase = async ({ players, goal, initial_shot: initialShot
 };
 
 module.exports = {
-  creatNewGameInDatabase,
+  createNewGameInDatabase,
 };

@@ -1,7 +1,7 @@
 const theFramework = require('the-framework');
 const { fetchCurrentGameFromDatabase } = require('../../services/firebase/current-games/fetch-game-information');
 const { addShotToCurrentGameDatabase } = require('../../services/firebase/current-games/add-shot-to-game');
-const { creatNewGameInDatabase } = require('../../services/firebase/current-games/create-new-game');
+const { createNewGameInDatabase } = require('../../services/firebase/current-games/create-new-game');
 const { startNewGameInDatabase } = require('../../services/firebase/current-games/start-new-game');
 
 theFramework.get(
@@ -74,7 +74,7 @@ theFramework.post(
 );
 
 theFramework.post(
-  '/create-games/create',
+  '/current-games/create',
   [
     {
       id: 'players',
@@ -92,12 +92,12 @@ theFramework.post(
       id: 'initial_shot',
       type: theFramework.OBJECT,
       required: true,
-      description: 'initial shot to start game',
+      description: 'inital shot to start game',
     },
   ],
   {
     description: 'initiates a game session',
     authRequired: false,
   },
-  async (params) => creatNewGameInDatabase(params),
+  async (params) => createNewGameInDatabase(params),
 );
