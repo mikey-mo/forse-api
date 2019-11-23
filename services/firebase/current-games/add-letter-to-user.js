@@ -1,9 +1,9 @@
 const admin = require('firebase-admin');
 
-let fetchCurrentGamesFromDatabase = () => null;
+let addLetterToUserInDatabase;
 
 try {
-  fetchCurrentGamesFromDatabase = async () => {
+  addLetterToUserInDatabase = async () => {
     const db = admin.firestore();
     const currentGamesRef = await db.collection('current_games');
     return currentGamesRef.get()
@@ -22,5 +22,5 @@ try {
 }
 
 module.exports = {
-  fetchCurrentGamesFromDatabase,
+  addLetterToUserInDatabase,
 };

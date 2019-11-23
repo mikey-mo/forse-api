@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cron = require('node-cron');
 
 const { fetchCurrentGamesFromDatabase } = require('./services/firebase/current-games/fetch-current-games');
+const { addLetterToUserInDatabase } = require('./services/firebase/current-games/add-letter-to-user');
 
 dotenv.config();
 
@@ -16,8 +17,14 @@ let currentGames;
 
 cron.schedule('* * * * * *', async () => {
   const games = await fetchCurrentGamesFromDatabase();
-  currentGames = games;
-  console.log('hey bitch', currentGames);
+  currentGames = games.filter((game) => game.status === 'PLAYING');
+  const currentGameLatestShots = currentGames.map((latestShot) => {
+    return ({ latestShot: latestShot.latest_shot, gameId: latestShot.game_id });
+  });
+  const timeNow = new Date().getTime();
+  const latestShotTime = currentGameLatestShots[0].latestShot.time.toDate().getTime();
+  const { gameId } = currentGameLatestShots[0];
+  if (timeNow >= latestShotTime) addLetterToUserInDatabase(gameId);
 });
 
 theFramework.startServer({
