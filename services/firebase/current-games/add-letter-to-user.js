@@ -29,8 +29,18 @@ const calculateLetterToAdd = (opponent) => {
   };
 };
 
-const gameCompletedInDatabase = (gameInfo) => {
-  console.log(JSON.stringify(gameInfo));
+const gameCompletedInDatabase = async (gameInfo, gameId, db) => {
+  const completedGameRef = await db.collection('completed_games').doc(gameId);
+  const data = {
+    ...gameInfo,
+    status: 'COMPLETE',
+  };
+  try {
+    await completedGameRef.set(data);
+  } catch (e) {
+    return { error: e };
+  }
+  return { status: 'succes' };
 };
 
 const getOpponentId = (playerId, players) => {
@@ -92,7 +102,15 @@ try {
     } catch (e) {
       return { error: e };
     }
-    if (updatedPlayers.game_over) return gameCompletedInDatabase({ ...currentGame.data(), ...data });
+    if (updatedPlayers.game_over) {
+      await gameCompletedInDatabase({
+        ...currentGame.data(),
+        ...data,
+        winning_player: playerId,
+      }, gameId, db);
+      await currentGameRef.delete();
+      return { status: 'success' };
+    }
     return { status: 'success' };
   };
 } catch (e) {

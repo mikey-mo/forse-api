@@ -18,16 +18,17 @@ let currentGames;
 cron.schedule('* * * * * *', async () => {
   const games = await fetchCurrentGamesFromDatabase();
   currentGames = games.filter((game) => game.status === 'PLAYING');
-  const currentGameLatestShots = currentGames.map((latestShot) => {
-    return ({ latestShot: latestShot.latest_shot, gameId: latestShot.game_id });
-  });
-  const timeNow = new Date().getTime();
-  const latestShotTime = currentGameLatestShots[0].latestShot.time.toDate().getTime();
-  const latestShotTimePlusDay = new Date(latestShotTime);
-  latestShotTimePlusDay.setDate(latestShotTimePlusDay.getDate() + 2);
-  if (timeNow >= latestShotTimePlusDay) {
-    console.log('TIME PASSED');
-    return addLetterToUserInDatabase(currentGameLatestShots[0]);
+  if (currentGames.length) {
+    const currentGameLatestShots = currentGames.map((latestShot) => {
+      return ({ latestShot: latestShot.latest_shot, gameId: latestShot.game_id });
+    });
+    const timeNow = new Date().getTime();
+    const latestShotTime = currentGameLatestShots[0].latestShot.time.toDate().getTime();
+    const latestShotTimePlusDay = new Date(latestShotTime);
+    latestShotTimePlusDay.setDate(latestShotTimePlusDay.getDate() + 2);
+    if (timeNow >= latestShotTimePlusDay) {
+      return addLetterToUserInDatabase(currentGameLatestShots[0]);
+    }
   }
 });
 
