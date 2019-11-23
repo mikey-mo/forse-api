@@ -5,7 +5,23 @@ const { Timestamp } = require('firebase-admin').firestore;
 
 const db = admin.firestore();
 
-const addShotToCurrentcurrentGameDatabase = async ({
+const getPlayerInfoFromGame = async (gameId) => {
+  const currentGameRef = await db.collection('current_games').doc(gameId);
+  const currentGame = await currentGameRef.get();
+  const { players } = currentGame.data();
+  return players;
+};
+
+const getOpponentId = (userId, players) => {
+  const objectKeys = Object.keys(players);
+  let opponent;
+  objectKeys.forEach((key) => {
+    if (players[key].id !== userId) opponent = players[key].id;
+  });
+  return opponent;
+};
+
+const addShotToCurrentGameDatabase = async ({
   game_id: gameId,
   user_id: userId,
   match_id: matchId,
@@ -25,7 +41,14 @@ const addShotToCurrentcurrentGameDatabase = async ({
     const currentGameData = await currentGameRef.get();
     const matchShotInfo = currentGameData.data().shots[matchId];
     const matchedShotId = uuidv1().replace(/-/g, '');
+    const players = await getPlayerInfoFromGame(gameId);
     const data = {
+      current_shot_maker: getOpponentId(userId, players),
+      latest_shot: {
+        player_id: userId,
+        shot_id: matchedShotId,
+        time: Timestamp.fromDate(new Date()),
+      },
       shots: {
         ...currentGameData.data().shots,
         [matchId]: {
@@ -59,5 +82,5 @@ const addShotToCurrentcurrentGameDatabase = async ({
 };
 
 module.exports = {
-  addShotToCurrentcurrentGameDatabase,
+  addShotToCurrentGameDatabase,
 };

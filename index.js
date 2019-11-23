@@ -24,7 +24,7 @@ cron.schedule('* * * * * *', async () => {
   const timeNow = new Date().getTime();
   const latestShotTime = currentGameLatestShots[0].latestShot.time.toDate().getTime();
   const latestShotTimePlusDay = new Date(latestShotTime);
-  latestShotTimePlusDay.setDate(latestShotTimePlusDay.getDate() + 1);
+  latestShotTimePlusDay.setDate(latestShotTimePlusDay.getDate() + 2);
   if (timeNow >= latestShotTimePlusDay) {
     console.log('TIME PASSED');
     return addLetterToUserInDatabase(currentGameLatestShots[0]);

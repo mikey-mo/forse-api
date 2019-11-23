@@ -18,8 +18,10 @@ const calculateLetterToAdd = (opponent) => {
     default:
       newLetters = 'B';
   }
+  const updatedOpponent = { ...opponent };
+  if (newLetters === 'BIKE') updatedOpponent.game_over = true;
   return {
-    ...opponent,
+    ...updatedOpponent,
     [playerType]: {
       ...opponent[playerType],
       letters: newLetters,
@@ -27,11 +29,17 @@ const calculateLetterToAdd = (opponent) => {
   };
 };
 
+const gameCompletedInDatabase = (gameInfo) => {
+  console.log(JSON.stringify(gameInfo));
+};
+
 const getOpponentId = (playerId, players) => {
   const objectKeys = Object.keys(players);
   let opponent;
   objectKeys.forEach((key) => {
-    if (players[key].id !== playerId) opponent = players[key].id;
+    if ((key !== 'game_over') && (players[key].id !== playerId)) {
+      opponent = players[key].id;
+    }
   });
   return opponent;
 };
@@ -43,6 +51,7 @@ const updatePlayerInfo = (playerId, players) => {
     if (players[key].id !== playerId) opponent = { [key]: players[key] };
   });
   const updatedOpponent = calculateLetterToAdd(opponent);
+  if (updatedOpponent.gameOver) return { gameOver: updatedOpponent.gameOver };
   const updatedPlayers = {
     ...players,
     ...updatedOpponent,
@@ -79,11 +88,12 @@ try {
       },
     };
     try {
-      currentGameRef.update(data);
-      return { status: 'success' };
+      await currentGameRef.update(data);
     } catch (e) {
       return { error: e };
     }
+    if (updatedPlayers.game_over) return gameCompletedInDatabase({ ...currentGame.data(), ...data });
+    return { status: 'success' };
   };
 } catch (e) {
   console.log('firebase not running');
