@@ -23,8 +23,12 @@ cron.schedule('* * * * * *', async () => {
   });
   const timeNow = new Date().getTime();
   const latestShotTime = currentGameLatestShots[0].latestShot.time.toDate().getTime();
-  const { gameId } = currentGameLatestShots[0];
-  if (timeNow >= latestShotTime) addLetterToUserInDatabase(gameId);
+  const latestShotTimePlusDay = new Date(latestShotTime);
+  latestShotTimePlusDay.setDate(latestShotTimePlusDay.getDate() + 1);
+  if (timeNow >= latestShotTimePlusDay) {
+    console.log('TIME PASSED');
+    return addLetterToUserInDatabase(currentGameLatestShots[0]);
+  }
 });
 
 theFramework.startServer({

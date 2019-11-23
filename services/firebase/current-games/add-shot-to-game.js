@@ -5,7 +5,7 @@ const { Timestamp } = require('firebase-admin').firestore;
 
 const db = admin.firestore();
 
-const addShotToCurrentGameDatabase = async ({
+const addShotToCurrentcurrentGameDatabase = async ({
   game_id: gameId,
   user_id: userId,
   match_id: matchId,
@@ -21,13 +21,13 @@ const addShotToCurrentGameDatabase = async ({
   shot_rules: shotRules,
 }) => {
   try {
-    const gameRef = await db.collection('current_games').doc(gameId);
-    const gameData = await gameRef.get();
-    const matchShotInfo = gameData.data().shots[matchId];
+    const currentGameRef = await db.collection('current_games').doc(gameId);
+    const currentGameData = await currentGameRef.get();
+    const matchShotInfo = currentGameData.data().shots[matchId];
     const matchedShotId = uuidv1().replace(/-/g, '');
     const data = {
       shots: {
-        ...gameData.data().shots,
+        ...currentGameData.data().shots,
         [matchId]: {
           ...matchShotInfo,
           matched_shot: matchedShotId,
@@ -48,7 +48,7 @@ const addShotToCurrentGameDatabase = async ({
       },
     };
     try {
-      gameRef.update(data);
+      currentGameRef.update(data);
       return { status: 'success' };
     } catch (e) {
       return { error: e };
@@ -59,5 +59,5 @@ const addShotToCurrentGameDatabase = async ({
 };
 
 module.exports = {
-  addShotToCurrentGameDatabase,
+  addShotToCurrentcurrentGameDatabase,
 };
