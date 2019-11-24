@@ -43,6 +43,17 @@ const gameCompletedInDatabase = async (gameInfo, gameId, db) => {
   return { status: 'succes' };
 };
 
+const getOpponentId = (playerId, players) => {
+  const objectKeys = Object.keys(players);
+  let opponent;
+  objectKeys.forEach((key) => {
+    if ((key !== 'game_over') && (players[key].id !== playerId)) {
+      opponent = players[key].id;
+    }
+  });
+  return opponent;
+};
+
 const updatePlayerInfo = (playerId, players) => {
   const objectKeys = Object.keys(players);
   let opponent;
@@ -63,33 +74,39 @@ let addLetterToUserInDatabase;
 try {
   addLetterToUserInDatabase = async (latestShotInfo) => {
     const db = admin.firestore();
-    const {
-      latestShot: {
-        player_id: playerId,
-      },
-      gameId,
-    } = latestShotInfo;
+    const { gameId } = latestShotInfo;
     const currentGameRef = await db.collection('current_games').doc(gameId);
     const currentGame = await currentGameRef.get();
-    const { players, latestShot: { type: latestShotType } } = currentGame.data();
-    const updatedPlayers = updatePlayerInfo(playerId, players);
+    const {
+      current_shot_maker: currentShotMaker,
+      players,
+      latest_shot: {
+        type: latestShotType,
+      },
+    } = currentGame.data();
+    const updatedPlayers = updatePlayerInfo(currentShotMaker, players);
     const data = {
       players: {
         ...players,
         ...updatedPlayers,
       },
       latest_shot: {
-        player_id: playerId,
+        player_id: currentShotMaker,
         shot_id: null,
         time: Timestamp.fromDate(new Date()),
         type: 'MISS',
       },
     };
+    if (latestShotType === 'MISS') {
+      data.current_shot_maker = getOpponentId(currentShotMaker, players);
+    }
+
     try {
       await currentGameRef.update(data);
     } catch (e) {
       return { error: e };
     }
+
     if (updatedPlayers.game_over) {
       await gameCompletedInDatabase({
         ...currentGame.data(),
