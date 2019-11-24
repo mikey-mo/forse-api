@@ -61,7 +61,12 @@ const updatePlayerInfo = (playerId, players) => {
     if (players[key].id !== playerId) opponent = { [key]: players[key] };
   });
   const updatedOpponent = calculateLetterToAdd(opponent);
-  if (updatedOpponent.gameOver) return { gameOver: updatedOpponent.gameOver };
+  if (updatedOpponent.gameOver) {
+    return {
+      gameOver: updatedOpponent.gameOver,
+      winner: playerId,
+    };
+  }
   const updatedPlayers = {
     ...players,
     ...updatedOpponent,
@@ -111,7 +116,7 @@ try {
       await gameCompletedInDatabase({
         ...currentGame.data(),
         ...data,
-        winning_player: playerId,
+        winning_player: updatedPlayers.winner,
       }, gameId, db);
       await currentGameRef.delete();
       return { status: 'success' };
