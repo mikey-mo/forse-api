@@ -3,7 +3,7 @@ const cron = require('node-cron');
 const { fetchCurrentGamesFromDatabase } = require('../firebase/current-games/fetch-current-games');
 const { addLetterToUserInDatabase } = require('../firebase/current-games/add-letter-to-user');
 
-const cronCheckForLostShot = () => {
+const cronCheckForLostShots = () => {
   cron.schedule('* * * * *', async () => {
     const games = await fetchCurrentGamesFromDatabase();
     const currentGames = games.filter((game) => game.status === 'PLAYING');
@@ -24,4 +24,4 @@ const cronCheckForLostShot = () => {
   });
 };
 
-module.exports = { cronCheckForLostShot };
+module.exports = { cronCheckForLostShots };

@@ -1,7 +1,7 @@
 const theFramework = require('the-framework');
 const dotenv = require('dotenv');
 
-const { cronCheckForLostShot } = require('./services/cron/check-for-lost-shot');
+const { cronCheckForLostShots } = require('./services/cron/check-for-lost-shot');
 
 dotenv.config();
 
@@ -22,4 +22,4 @@ theFramework.startServer({
   port: PORT,
 });
 
-cronCheckForLostShot();
+cronCheckForLostShots();
