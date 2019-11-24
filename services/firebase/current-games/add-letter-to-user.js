@@ -43,17 +43,6 @@ const gameCompletedInDatabase = async (gameInfo, gameId, db) => {
   return { status: 'succes' };
 };
 
-const getOpponentId = (playerId, players) => {
-  const objectKeys = Object.keys(players);
-  let opponent;
-  objectKeys.forEach((key) => {
-    if ((key !== 'game_over') && (players[key].id !== playerId)) {
-      opponent = players[key].id;
-    }
-  });
-  return opponent;
-};
-
 const updatePlayerInfo = (playerId, players) => {
   const objectKeys = Object.keys(players);
   let opponent;
@@ -82,20 +71,18 @@ try {
     } = latestShotInfo;
     const currentGameRef = await db.collection('current_games').doc(gameId);
     const currentGame = await currentGameRef.get();
-    const { players, latest_shot: latestShot } = currentGame.data();
-    const opponentId = getOpponentId(playerId, players);
+    const { players, latestShot: { type: latestShotType } } = currentGame.data();
     const updatedPlayers = updatePlayerInfo(playerId, players);
     const data = {
       players: {
         ...players,
         ...updatedPlayers,
       },
-      current_shot_maker: opponentId,
       latest_shot: {
-        player_id: opponentId,
+        player_id: playerId,
         shot_id: null,
         time: Timestamp.fromDate(new Date()),
-        type: latestShot.type,
+        type: 'MISS',
       },
     };
     try {

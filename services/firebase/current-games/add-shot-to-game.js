@@ -52,10 +52,6 @@ const addShotToCurrentGameDatabase = async ({
       },
       shots: {
         ...currentGameData.data().shots,
-        [matchId]: {
-          ...matchShotInfo,
-          matched_shot: matchedShotId,
-        },
         [matchedShotId]: {
           distance,
           moving_time: movingTime,
@@ -65,12 +61,20 @@ const addShotToCurrentGameDatabase = async ({
           total_elevation_gain: elevationGain,
           shot_added: Timestamp.fromDate(new Date()),
           map,
-          match_shot: matchId,
           type: shotType,
           rules: shotRules,
         },
       },
     };
+
+    if (shotType !== 'SET') {
+      data.shots[matchId] = {
+        ...matchShotInfo,
+        matched_shot: matchedShotId,
+      };
+      data.shots[matchedShotId].match_shot = matchId;
+    }
+
     try {
       currentGameRef.update(data);
       return { status: 'success' };

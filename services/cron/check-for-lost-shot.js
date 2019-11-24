@@ -4,7 +4,7 @@ const { fetchCurrentGamesFromDatabase } = require('../firebase/current-games/fet
 const { addLetterToUserInDatabase } = require('../firebase/current-games/add-letter-to-user');
 
 const cronCheckForLostShots = () => {
-  cron.schedule('* * * * *', async () => {
+  cron.schedule('* * * * * *', async () => {
     const games = await fetchCurrentGamesFromDatabase();
     const currentGames = games.filter((game) => game.status === 'PLAYING');
     if (currentGames.length) {

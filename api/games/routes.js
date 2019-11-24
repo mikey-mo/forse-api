@@ -33,7 +33,7 @@ theFramework.post(
     {
       id: 'match_id',
       type: theFramework.STRING,
-      required: true,
+      required: false,
       description: 'id to match shot to',
     },
     {
