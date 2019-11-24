@@ -77,12 +77,18 @@ theFramework.post(
       required: true,
       description: 'start game by id',
     },
+    {
+      id: 'user_id',
+      type: theFramework.STRING,
+      required: true,
+      description: 'user id to start game',
+    },
   ],
   {
     description: 'starts current game between two users',
     authRequired: false,
   },
-  async ({ game_id: gameId }) => ({ userInfo: await startNewGameInDatabase(gameId) }),
+  async (params) => startNewGameInDatabase(params),
 );
 
 theFramework.post(

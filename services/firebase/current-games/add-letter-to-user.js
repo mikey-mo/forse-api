@@ -82,7 +82,7 @@ try {
     } = latestShotInfo;
     const currentGameRef = await db.collection('current_games').doc(gameId);
     const currentGame = await currentGameRef.get();
-    const { players } = currentGame.data();
+    const { players, latest_shot: latestShot } = currentGame.data();
     const opponentId = getOpponentId(playerId, players);
     const updatedPlayers = updatePlayerInfo(playerId, players);
     const data = {
@@ -95,6 +95,7 @@ try {
         player_id: opponentId,
         shot_id: null,
         time: Timestamp.fromDate(new Date()),
+        type: latestShot.type,
       },
     };
     try {

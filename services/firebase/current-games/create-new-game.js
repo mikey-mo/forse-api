@@ -21,6 +21,7 @@ const createNewGameInDatabase = async ({
   },
   shot_rules: shotRules,
 }) => {
+  const addedShotTime = Timestamp.fromDate(new Date());
   const data = {
     players: {
       contender: {
@@ -33,23 +34,29 @@ const createNewGameInDatabase = async ({
       },
     },
     goal,
+    latest_shot: {
+      player_id: challenger,
+      shot_id: null,
+      time: addedShotTime,
+      type: 'SET',
+    },
     shots: {
       [uuidv1().replace(/-/g, '')]: {
         map,
         distance,
-        start_date: Timestamp.fromDate(startDate),
-        shot_added: Timestamp.fromDate(new Date()),
+        start_date: Timestamp.fromDate(new Date(startDate)),
+        shot_added: addedShotTime,
         total_elevation_gain: totalElevationGain,
         activity_type: activityType,
         moving_time: movingTime,
         strava_id: id,
-        type: 'MATCH',
+        type: 'SET',
         rules: shotRules || null,
+        player_id: challenger,
       },
     },
-    game_initiated: Timestamp.fromDate(new Date()),
+    game_initiated: addedShotTime,
     status: 'INITIATED',
-    player_id: challenger,
   };
   try {
     db.collection('current_games').doc().set(data);

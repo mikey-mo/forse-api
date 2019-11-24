@@ -43,11 +43,12 @@ const addShotToCurrentGameDatabase = async ({
     const matchedShotId = uuidv1().replace(/-/g, '');
     const players = await getPlayerInfoFromGame(gameId);
     const data = {
-      current_shot_maker: getOpponentId(userId, players),
+      current_shot_maker: shotType === 'SET' ? getOpponentId(userId, players) : userId,
       latest_shot: {
         player_id: userId,
         shot_id: matchedShotId,
         time: Timestamp.fromDate(new Date()),
+        type: shotType,
       },
       shots: {
         ...currentGameData.data().shots,
