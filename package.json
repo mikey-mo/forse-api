@@ -13,7 +13,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "firebase-admin": "^8.7.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "node-cron": "^2.0.3",
     "superagent": "^5.1.0",
     "the-framework": "^1.0.11",
